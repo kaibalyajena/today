@@ -11,20 +11,21 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text("TODAY"),
-        elevation: 0,
-        backgroundColor: Colors.transparent,
+        title: const Text(
+          "THE DAY",
+          style: TextStyle(fontFamily: 'NotoSansMono', fontSize: 25),
+        ),
+        backgroundColor: Color(0xffe65c4f),
       ),
       body: Container(
         height: h,
         width: w,
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Color(0xff0d50a9), Color(0xff99f5e0)],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter)),
+        color: const Color(0xffe9eef4),
         child: ListView(
-          children: const [TodayTile()],
+          children: [
+            TodayTile(task: "to dsa", completed: false),
+            TodayTile(task: 'study for midsem', completed: true)
+          ],
         ),
       ),
     );
