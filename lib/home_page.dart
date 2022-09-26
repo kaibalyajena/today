@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:today/utilities/today_list.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List todayList = [
+    ["do dsa", false],
+    ["compathon", true]
+  ];
+
+  void changeCheckbox(bool? value, int index) {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,19 +27,21 @@ class HomePage extends StatelessWidget {
           "THE DAY",
           style: TextStyle(fontFamily: 'NotoSansMono', fontSize: 25),
         ),
-        backgroundColor: Color(0xffe65c4f),
+        backgroundColor: const Color(0xffe65c4f),
       ),
       body: Container(
-        height: h,
-        width: w,
-        color: const Color(0xffe9eef4),
-        child: ListView(
-          children: [
-            TodayTile(task: "to dsa", completed: false),
-            TodayTile(task: 'study for midsem', completed: true)
-          ],
-        ),
-      ),
+          height: h,
+          width: w,
+          color: const Color(0xffe9eef4),
+          child: ListView.builder(
+            itemCount: todayList.length,
+            itemBuilder: ((context, index) {
+              return TodayTile(
+                  task: todayList[index][0],
+                  completed: todayList[index][1],
+                  onChanged: (value) => changeCheckbox(value, index));
+            }),
+          )),
     );
   }
 }

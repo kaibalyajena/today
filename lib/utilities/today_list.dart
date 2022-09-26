@@ -3,16 +3,14 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class TodayTile extends StatelessWidget {
   final String task;
-  bool completed;
-  Function(bool?)? onChanged() {
-    if (completed == true) {
-      completed = false;
-    } else {
-      completed = true;
-    }
-  }
+  final bool completed;
+  final Function(bool?)? onChanged;
 
-  TodayTile({super.key, required this.task, required this.completed});
+  TodayTile(
+      {super.key,
+      required this.task,
+      required this.completed,
+      required this.onChanged});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,7 +25,10 @@ class TodayTile extends StatelessWidget {
                   end: Alignment.bottomRight)),
           child: Row(
             children: [
-              Checkbox(value: completed, onChanged: onChanged()),
+              Checkbox(
+                  value: completed,
+                  onChanged: onChanged,
+                  activeColor: Color(0xffe6564f)),
               Text(
                 task,
                 style: const TextStyle(
