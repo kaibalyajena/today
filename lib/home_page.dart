@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:today/utilities/dialog_box.dart';
 import 'package:today/utilities/today_list.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -13,7 +16,17 @@ class _HomePageState extends State<HomePage> {
   ];
 
   void changeCheckbox(bool? value, int index) {
-    setState(() {});
+    setState(() {
+      todayList[index][1] = !todayList[index][1];
+    });
+  }
+
+  void createTask() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const DialogBox();
+        });
   }
 
   @override
@@ -28,6 +41,11 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(fontFamily: 'NotoSansMono', fontSize: 25),
         ),
         backgroundColor: const Color(0xffe65c4f),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: createTask,
+        backgroundColor: const Color(0xffe65c4f),
+        child: const Icon(Icons.add),
       ),
       body: Container(
           height: h,

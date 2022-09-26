@@ -6,7 +6,7 @@ class TodayTile extends StatelessWidget {
   final bool completed;
   final Function(bool?)? onChanged;
 
-  TodayTile(
+  const TodayTile(
       {super.key,
       required this.task,
       required this.completed,
@@ -14,7 +14,7 @@ class TodayTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.only(top: 15, right: 15, left: 15),
       child: Container(
           padding: const EdgeInsets.all(25),
           decoration: BoxDecoration(
@@ -28,14 +28,17 @@ class TodayTile extends StatelessWidget {
               Checkbox(
                   value: completed,
                   onChanged: onChanged,
-                  activeColor: Color(0xffe6564f)),
+                  activeColor: const Color(0xffe9eef4),
+                  checkColor: const Color(0xffe65c4f)),
               Text(
                 task,
-                style: const TextStyle(
-                  fontFamily: "NotoSansMono",
-                  color: Color(0xffe9eef4),
-                  fontSize: 17,
-                ),
+                style: TextStyle(
+                    fontFamily: "NotoSansMono",
+                    color: const Color(0xffe9eef4),
+                    fontSize: 19,
+                    decoration: completed
+                        ? TextDecoration.lineThrough
+                        : TextDecoration.none),
               ),
             ],
           )),
