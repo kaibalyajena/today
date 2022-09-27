@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:today/data/database.dart';
 import 'package:today/utilities/dialog_box.dart';
 import 'package:today/utilities/today_list.dart';
 
@@ -9,28 +11,43 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _controller = TextEditingController();
-  List todayList = [
-    ["do dsa", false],
-    ["compathon", true]
-  ];
+  final _myBox = Hive.box('mybox');
+  TodayDatabase db = TodayDatabase();
 
+  @override
+  void initState() {
+    if (_myBox.get("TODAYLIST") == null) {
+      db.createInitialData();
+    } else {
+      db.loadData();
+    }
+    super.initState();
+  }
+
+  // List todayList = [
+  //   ["do dsa", false],
+  //   ["compathon", true]
+  // ];
+  final _controller = TextEditingController();
   void changeCheckbox(bool? value, int index) {
     setState(() {
-      todayList[index][1] = !todayList[index][1];
+      db.todayList[index][1] = !db.todayList[index][1];
     });
+    db.updateData();
   }
 
   void onSave() {
     setState(() {
-      todayList.add([_controller.text, false]);
+      db.todayList.add([_controller.text, false]);
       _controller.clear();
     });
     Navigator.pop(context);
+    db.updateData();
   }
 
   void onCancel() {
     Navigator.pop(context);
+    db.updateData();
   }
 
   void createTask() {
@@ -43,6 +60,13 @@ class _HomePageState extends State<HomePage> {
             onCancel: onCancel,
           );
         });
+  }
+
+  void deleteTask(int index) {
+    setState(() {
+      db.todayList.remove(db.todayList[index]);
+    });
+    db.updateData();
   }
 
   @override
@@ -68,17 +92,13 @@ class _HomePageState extends State<HomePage> {
           width: w,
           color: const Color(0xffe9eef4),
           child: ListView.builder(
-            itemCount: todayList.length,
+            itemCount: db.todayList.length,
             itemBuilder: ((context, index) {
               return TodayTile(
-                task: todayList[index][0],
-                completed: todayList[index][1],
+                task: db.todayList[index][0],
+                completed: db.todayList[index][1],
                 onChanged: (value) => changeCheckbox(value, index),
-                deleteTask: (ctx) {
-                  setState(() {
-                    todayList.remove(todayList[index]);
-                  });
-                },
+                deleteTask: (ctx) => deleteTask(index),
               );
             }),
           )),

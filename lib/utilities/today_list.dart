@@ -23,6 +23,7 @@ class TodayTile extends StatelessWidget {
           motion: StretchMotion(),
           children: [
             SlidableAction(
+              borderRadius: BorderRadius.circular(20),
               onPressed: deleteTask,
               icon: Icons.delete,
               backgroundColor: Color(0xffe65c4f),
