@@ -3,13 +3,13 @@ import 'package:today/utilities/dialog_box.dart';
 import 'package:today/utilities/today_list.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
+  HomePage({super.key});
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  final _controller = TextEditingController();
   List todayList = [
     ["do dsa", false],
     ["compathon", true]
@@ -21,11 +21,27 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void onSave() {
+    setState(() {
+      todayList.add([_controller.text, false]);
+      _controller.clear();
+    });
+    Navigator.pop(context);
+  }
+
+  void onCancel() {
+    Navigator.pop(context);
+  }
+
   void createTask() {
     showDialog(
         context: context,
         builder: (context) {
-          return const DialogBox();
+          return DialogBox(
+            controller: _controller,
+            onSave: onSave,
+            onCancel: onCancel,
+          );
         });
   }
 
