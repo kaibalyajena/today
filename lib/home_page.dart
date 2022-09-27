@@ -71,9 +71,15 @@ class _HomePageState extends State<HomePage> {
             itemCount: todayList.length,
             itemBuilder: ((context, index) {
               return TodayTile(
-                  task: todayList[index][0],
-                  completed: todayList[index][1],
-                  onChanged: (value) => changeCheckbox(value, index));
+                task: todayList[index][0],
+                completed: todayList[index][1],
+                onChanged: (value) => changeCheckbox(value, index),
+                deleteTask: (ctx) {
+                  setState(() {
+                    todayList.remove(todayList[index]);
+                  });
+                },
+              );
             }),
           )),
     );
